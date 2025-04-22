@@ -52,6 +52,11 @@
                         <small id="error-barang_nama" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
+                        <label>Stok</label>
+                        <input type="number" name="stok_barang" id="stok_barang" class="form-control" required>
+                        <small id="error-stok_barang" class="error-text form-text text-danger"></small>
+                     </div>
+                    <div class="form-group">
                         <label>Unit</label>
                         <select name="unit" id="unit" class="form-control" required>
                             <option value="">- Pilih Unit -</option>
@@ -64,11 +69,6 @@
                         </select>
                         <small id="error-unit" class="error-text form-text text-danger"></small>
                     </div> 
-                   <div class="form-group">
-                       <label>Stok</label>
-                       <input type="number" name="stok_barang" id="stok_barang" class="form-control" required>
-                       <small id="error-stok_barang" class="error-text form-text text-danger"></small>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>

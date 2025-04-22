@@ -34,7 +34,9 @@ class TransaksiStokController extends Controller
     public function list(Request $request)
     {
         $transaksi = TransaksiStokModel::with('barang') // relasi ke model Barang
-            ->select('transaksi_stok.*'); // ambil semua kolom tabel transaksi_stok
+            ->select('transaksi_stok.*') // ambil semua kolom tabel transaksi_stok
+            ->join('barang', 'barang.barang_id', '=', 'transaksi_stok.barang_id') // join ke tabel barang
+            ->orderBy('barang.barang_kode', 'asc'); // urut berdasarkan kode barang
 
         return DataTables::of($transaksi)
             ->addIndexColumn() // tambahkan kolom nomor urut
@@ -45,8 +47,9 @@ class TransaksiStokController extends Controller
                 return $row->barang->barang_kode ?? '-';
             })
             ->addColumn('aksi', function ($row) {
-                // Tombol Edit dan Hapus
-                $btn = '<button onclick="modalAction(\'' . url('/transaksi_stok/' . $row->transaksi_stok_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button>';
+                // Tombol Detail, Edit, dan Hapus
+                $btn  = '<button onclick="modalAction(\'' . url('/transaksi_stok/' . $row->transaksi_stok_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/transaksi_stok/' . $row->transaksi_stok_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button>';
                 $btn .= '<button onclick="modalAction(\'' . url('/transaksi_stok/' . $row->transaksi_stok_id .
                     '/delete_ajax') . '\')"  class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
@@ -133,6 +136,21 @@ class TransaksiStokController extends Controller
         }
 
         return redirect('/');
+    }
+
+    // Menampilkan detail transaksi stok via AJAX
+    public function show_ajax($id)
+    {
+        $transaksi_stok = TransaksiStokModel::with('barang') // mengambil data transaksi stok dari database
+                ->find($id);
+
+        if (!$transaksi_stok) {
+            return response()
+            ->json(['status' => false, 
+                    'message' => 'Data tidak ditemukan']);
+        }
+
+        return view('transaksi_stok.show_ajax', compact('transaksi_stok'));
     }
 
     // Tampilkan form edit transaksi via AJAX

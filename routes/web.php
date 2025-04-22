@@ -51,6 +51,7 @@ Route::group(['prefix'=>'transaksi_stok'], function () {
     Route::post('/list', [TransaksiStokController::class, 'list']);                      // Mengambil data transaksi stok dalam format DataTables
     Route::get('/create_ajax', [TransaksiStokController::class, 'create_ajax']);         // Menampilkan halaman form tambah transaksi stok ajax
     Route::post('/ajax', [TransaksiStokController::class, 'store_ajax']);                // Menyimpan data transaksi stok baru ajax
+    Route::get('/{id}/show_ajax', [TransaksiStokController::class, 'show_ajax']);        // Menampilkan detail transaksi stok
     Route::get('/{id}/edit_ajax', [TransaksiStokController::class, 'edit_ajax']);        // Menampilkan halaman form edit transaksi stok Ajax
     Route::put('/{id}/update_ajax', [TransaksiStokController::class, 'update_ajax']);    // Menyimpan perubahan data transaksi stok Ajax
     Route::get('/{id}/delete_ajax', [TransaksiStokController::class, 'confirm_ajax']);   // Untuk tampilkan form confirm  delete transaksi stok Ajax

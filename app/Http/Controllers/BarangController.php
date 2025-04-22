@@ -33,7 +33,9 @@ class BarangController extends Controller
     public function list(Request $request)
     {
         // Ambil data barang beserta relasi ke kategori
-        $barang = BarangModel::with('kategori')->select('barang_id', 'barang_kode', 'barang_nama', 'kategori_id', 'unit', 'stok_barang');
+        $barang = BarangModel::with('kategori')
+            ->select('barang_id', 'barang_kode', 'barang_nama', 'kategori_id', 'unit', 'stok_barang')
+            ->orderBy('barang_kode', 'asc'); // Tambah ini untuk urut berdasarkan kode barang
 
         return DataTables::of($barang)
             ->addIndexColumn() // Tambah kolom nomor urut
