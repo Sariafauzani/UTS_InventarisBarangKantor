@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\TransaksiStokController;
 
@@ -20,6 +21,14 @@ use App\Http\Controllers\TransaksiStokController;
 Route::get('/hello', function () {
     return 'Welcome';
 });
+
+// Route Auth
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/dashboard', function () {
+    return view('welcome'); })->middleware('checkAdmin');
+
+Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 
 // Menampilkan halaman index saat mengakses root /
 Route::get('/', [WelcomeController::class, 'index']);
@@ -58,3 +67,4 @@ Route::group(['prefix'=>'transaksi_stok'], function () {
     Route::delete('/{id}/delete_ajax', [TransaksiStokController::class, 'delete_ajax']); // Untuk menghapus data Transaksi stok Ajax
 });
 
+//});
